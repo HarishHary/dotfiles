@@ -1,0 +1,48 @@
+[user]
+	email = segharish@gmail.com
+	name = Harish SEGAR
+[core]
+	excludesfile = ~/.gitignore
+  pager = less -R
+  filemode = true
+  compression = 6
+[color]
+  status = true
+  ui = auto
+  branch = true
+  diff = true
+  interactive = true
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	lgg = log --graph --full-history --all --decorate --oneline --color
+  ls = ls-tree --name-only -r HEAD
+  st = status
+  cm = commit -am
+  ca = commit --amend
+	amend = commit --amend --no-edit
+  ch = checkout
+  me = merge
+  rb = rebase
+  rc = rebase --continue
+  ra = rebase --abort
+  rs = rebase --skip
+  ps = push
+  pl = pull --rebase
+  ft = fetch -p --all
+  br = branch
+  bl = blame
+  sh = stash
+  sp = stash pop
+  sc = stash clear
+  sl = shortlog -ns
+  pt = push --tags
+  cl = clone
+  re = remote -v
+[push]
+  default = simple
+[pull]
+	rebase = true
+[commit]
+	verbose = true
+[branch]
+  autosetuprebase = always

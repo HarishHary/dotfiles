@@ -1,0 +1,117 @@
+# Extract any files
+extract ()
+{
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1    ;;
+            *.tar.gz)    tar xvzf $1    ;;
+            *.tar.xz)    tar xvJf $1    ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar x $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xvf $1     ;;
+            *.tbz2)      tar xvjf $1    ;;
+            *.tgz)       tar xvzf $1    ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)           echo "Soorry, I don't know how to extract '$1'" ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
+}
+
+# Python virtual environment manager
+virtenv() {
+    if [ $# -eq 0 ]; then
+        for ve in $(echo $VIRTUAL_ENV_ROOT/*); do
+            echo "* $([ "$VIRTUAL_ENV" = $ve ] && echo "\033[32m")$(basename $ve)\033[0m"
+        done
+    else
+        case "$1" in
+            -c|--create)
+                [ "$2" != "" ] && virtualenv --no-site-packages --distribute -p $(which python3) $VIRTUAL_ENV_ROOT/$2
+                ;;
+            -d|--delete)
+                [ "$2" != "" ] && rm -r $VIRTUAL_ENV_ROOT/$2
+                ;;
+            *)
+                which deactivate > /dev/null && deactivate
+                ACTIVATE=$VIRTUAL_ENV_ROOT/$1/bin/activate
+                [ -f $ACTIVATE ] && source $ACTIVATE
+                ;;
+        esac
+    fi
+}
+
+# Create a shellcode
+shellcode() {
+  hexdump -v -e '"\\""x" 1/1 "%02x" ""' ${1}
+}
+
+# Get gpg if for a given user name
+gpg_id() {
+  gpg --list-keys $1 | awk 'FNR == 2 {print $1}'
+}
+
+# Create a temp dir and go inside
+mktemp_dir() {
+  pushd $(mktemp -d)
+}
+
+# Network discovery without nmap (net_discover 192.168.0)
+net_discover() {
+  for x in {1..254..1}; do ping -c 1 -W 1 $1.$x | grep "64 b" | cut -d" " -f4; done
+}
+
+# Dns discovery (dns_discover 192.168.0)
+dns_discover() {
+  for x in {1..254..1}; do
+    NAME=$(host $1.$x | grep "name pointer" | cut -d" " -f5;)
+    if [ ! -z $NAME ]; then
+      echo "$NAME $1.$x"
+    fi
+  done
+}
+
+# Port scanner (port_scan 192.168.0.1 20-100)
+port_scan() {
+  nc -v -n -z -w1 $1 $2-$3 2>&1 | grep "succeeded" --color=never
+}
+
+as_discovery() {
+  whois -h whois.cymru.com " -v $1"
+}
+
+dict() {
+  if [[ "$1" =~ (d|m) ]]; then
+    curl -s dict://dict.org/$1:$2 | $PAGER
+  else
+    echo 'Unknown command. Use (d)efine or (m)atch.'
+  fi
+}
+
+# Stop all containers
+dstop() { docker stop $(docker ps -a -q); }
+
+# Remove all containers
+drm() { docker rm $(docker ps -a -q); }
+
+
+# Remove all images
+dri() { docker rmi $(docker images -q); }
+
+# Dockerfile build, e.g., $dbu tcnksm/test
+dbu() { docker build -t=$1 .; }
+
+# Show all alias related docker
+dalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
+
+# Bash into running container
+dbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
+
+
+transfer() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi
+tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; }
+
