@@ -5,7 +5,8 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH=/Users/hary/.oh-my-zsh
 export GOPATH=/Users/hary/.go
 export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOBIN
+export LLVM=/usr/local/opt/llvm/bin
+export PATH=$GOBIN:$LLVM:$PATH
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -122,3 +123,5 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 alias config='/usr/bin/git --git-dir=/Users/hary/.cfg/ --work-tree=/Users/hary'
+#source <(kubectl completion zsh)export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
+export PATH="/usr/local/opt/sphinx-doc/bin:$PATH"
