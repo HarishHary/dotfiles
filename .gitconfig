@@ -1,48 +1,75 @@
 [user]
-  email = segharish@gmail.com
-  name = Harish SEGAR
+    email = segharish@gmail.com
+    name = Harish Segar
+[init]
+    defaultBranch = main
 [core]
-  pager = less -R
-  filemode = true
-  compression = 6
-[color]
-  status = true
-  ui = auto
-  branch = true
-  diff = true
-  interactive = true
+    pager = delta
+    filemode = true
+    compression = 6
+[delta]
+    navigate = true
+    side-by-side = true
+[interactive]
+    diffFilter = delta --color-only
+[diff]
+    colorMoved = default
 [alias]
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
-  lgg = log --graph --full-history --all --decorate --oneline --color
-  ls = ls-tree --name-only -r HEAD
-  st = status
-  co = commit
-  cm = commit -am
-  ca = commit --amend
-  amend = commit --amend --no-edit
-  ch = checkout
-  me = merge
-  rb = rebase
-  rc = rebase --continue
-  ra = rebase --abort
-  rs = rebase --skip
-  ps = push
-  pl = pull --rebase
-  ft = fetch -p --all
-  br = branch
-  bl = blame
-  sh = stash
-  sp = stash pop
-  sc = stash clear
-  sl = shortlog -ns
-  pt = push --tags
-  cl = clone
-  re = remote -v
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    lgg = log --graph --full-history --all --decorate --oneline --color
+    ls = ls-tree --name-only -r HEAD
+    st = status
+    co = commit
+    cm = commit -am
+    ca = commit --amend
+    amend = commit --amend --no-edit
+    ch = checkout
+    me = merge
+    rb = rebase
+    rc = rebase --continue
+    ra = rebase --abort
+    rs = rebase --skip
+    ps = push
+    pl = pull --rebase
+    ft = fetch -p --all
+    br = branch
+    bl = blame
+    sh = stash
+    sp = stash pop
+    sc = stash clear
+    sl = shortlog -ns
+    pt = push --tags
+    cl = clone
+    re = remote -v
+[merge]
+    conflictstyle = diff3
 [push]
-  default = simple
+    default = simple
+    autoSetupRemote = true
 [pull]
-  rebase = true
+    rebase = true
 [commit]
-  verbose = true
+    verbose = true
 [branch]
-  autosetuprebase = always
+    autosetuprebase = always
+[color]
+    status = true
+    ui = auto
+    branch = true
+    diff = true
+    interactive = true
+[color]
+    ui = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
