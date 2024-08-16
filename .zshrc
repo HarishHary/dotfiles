@@ -67,6 +67,7 @@ plugins=(
   terraform
   docker
   git
+  fzf-tab
   zsh-syntax-highlighting
   zsh-autosuggestions
 )
@@ -105,18 +106,6 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-# export BASE_PROMPT=$PS1
-# function updatePrompt {
-#  	if [[ "$(pyenv virtualenvs)" == *"* $(pyenv version-name) "* ]]; then
-# 		export PS1='($(pyenv version-name)) '$BASE_PROMPT
-# 	else
-# 		export PS1=$BASE_PROMPT
-# 	fi
-# }
-# export PROMPT_COMMAND='updatePrompt'
-# precmd() { eval '$PROMPT_COMMAND' }
-
 # ---- terraform -----
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
@@ -136,14 +125,10 @@ export NVM_DIR="$HOME/.nvm"
 # ---- FZF -----
 eval "$(fzf --zsh)"
 
-fg="#CBE0F0"
-bg="#011628"
-bg_highlight="#143652"
-purple="#B388FF"
-blue="#06BCE4"
-cyan="#2CF9ED"
-
-export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
 
 # -- Use fd instead of fzf --
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -184,6 +169,21 @@ _fzf_comprun() {
   esac
 }
 
+# -----fzf-tab -----
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
+
 # ----- Bat (better cat) -----
 export BAT_THEME="Visual Studio Dark+"
 alias cat="bat"
@@ -201,3 +201,6 @@ eval $(thefuck --alias fk)
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/harish.segar/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# ---- Tmux -----
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
