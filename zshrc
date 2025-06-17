@@ -1,12 +1,9 @@
-# ---- Powerlevel10k -----
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+autoload -Uz compinit
+compinit
 
 # ---- history -----
-HISTFILE=$HOME/.zsh_history
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=100000
 setopt share_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
@@ -18,80 +15,17 @@ bindkey '^[[B' history-search-forward
 
 # ---- PATH -----
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export ZSH="$HOME/.oh-my-zsh"
+# export ZSH="$HOME/.oh-my-zsh"
 export GOPATH="$HOME/.go"
 export GOBIN="$HOME/.go/bin"
-export RANCHER_BIN="$HOME/.rd/bin"
 export LLVM14_BIN="/opt/homebrew/opt/llvm@14/bin"
-export PATH=$LLVM14_BIN:$RANCHER_BIN:$GOBIN:$PATH
-
-# ---- ZSH -----
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Uncomment the following line to use case-sensitive completion.
-CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-zstyle ':omz:update' mode auto      # update automatically without asking
-# Uncomment the following line to change how often to auto-update (in days).
-zstyle ':omz:update' frequency 3
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-HIST_STAMPS="mm/dd/yyyy"
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  warhol
-  terraform
-  docker
-  git
-  fzf-tab
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-)
-
-# User configuration
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-export LC_TYPE=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='code'
-else
-  export EDITOR='code'
-fi
+export PATH=$LLVM14_BIN:$GOBIN:$PATH
 
 # ---- custom aliases and functions -----
-[ -f $HOME/.aliases ] && source $HOME/.aliases
-[ -f $HOME/.functions ] && source $HOME/.functions
-[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.config/aliases ] && source $HOME/.config/aliases
+[ -f $HOME/.config/functions ] && source $HOME/.config/functions
+# [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
+[ -f $HOME/.config/fzf.zsh ] && source $HOME/.config/fzf.zsh
 
 # ---- docker -----
 zstyle ':completion:*:*:docker:*' option-stacking yes
@@ -198,9 +132,6 @@ alias cd="z"
 # ---- TheFuck -----
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/harish.segar/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # ---- Tmux -----
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
