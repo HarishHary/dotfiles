@@ -253,3 +253,7 @@ run = ['move-node-to-workspace T']
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCode'
 run = ['move-node-to-workspace V']
+
+[[on-window-detected]]
+if.app-id = 'com.vmware.fusion'
+run = ['layout floating']

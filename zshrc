@@ -25,7 +25,8 @@ export PATH=$LLVM14_BIN:$GOBIN:$PATH
 [ -f $HOME/.config/aliases ] && source $HOME/.config/aliases
 [ -f $HOME/.config/functions ] && source $HOME/.config/functions
 # [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
-[ -f $HOME/.config/fzf.zsh ] && source $HOME/.config/fzf.zsh
+# [ -f $HOME/.config/fzf.zsh ] && source $HOME/.config/fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ---- docker -----
 zstyle ':completion:*:*:docker:*' option-stacking yes
@@ -81,7 +82,7 @@ _fzf_compgen_dir() {
   fd --type=d --hidden --exclude .git . "$1"
 }
 
-source ~/.config/fzf/fzf-git.sh/fzf-git.sh
+source $HOME/.config/fzf/fzf-git.sh/fzf-git.sh
 
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
