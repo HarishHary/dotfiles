@@ -1,3 +1,14 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source $HOME/.config/powerlevel10k/powerlevel10k.zsh-theme
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+
 autoload -Uz compinit
 compinit
 
@@ -26,11 +37,13 @@ export PATH=$LLVM14_BIN:$GOBIN:$PATH
 [ -f $HOME/.config/functions ] && source $HOME/.config/functions
 # [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 # [ -f $HOME/.config/fzf.zsh ] && source $HOME/.config/fzf.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+[ -f $HOME/.config/creds ] && source $HOME/.config/creds
 
 # ---- docker -----
 zstyle ':completion:*:*:docker:*' option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
+export TF_VAR_docker_host_socket="$HOME/.colima/docker.sock"
 
 # ---- kubectl -----
 source <(kubectl completion zsh)
@@ -136,3 +149,6 @@ eval $(thefuck --alias fk)
 
 # ---- Tmux -----
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
