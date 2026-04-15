@@ -26,11 +26,13 @@ bindkey '^[[B' history-search-forward
 
 # ---- PATH -----
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-# export ZSH="$HOME/.oh-my-zsh"
 export GOPATH="$HOME/.go"
 export GOBIN="$HOME/.go/bin"
+export GO_PATH=$GOPATH
+export GO_BIN=$GOBIN
 export LLVM14_BIN="/opt/homebrew/opt/llvm@14/bin"
-export PATH=$LLVM14_BIN:$GOBIN:$PATH
+export UV_PATH="$HOME/.local/bin"
+export PATH=$LLVM14_BIN:$GOBIN:$GOPATH:$GO_BIN:$GO_PATH:$UV_PATH:$PATH
 
 # ---- custom aliases and functions -----
 [ -f $HOME/.config/aliases ] && source $HOME/.config/aliases
@@ -118,6 +120,7 @@ _fzf_comprun() {
 }
 
 # -----fzf-tab -----
+source $HOME/.config/fzf/fzf-tab/fzf-tab.plugin.zsh
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
 # set descriptions format to enable group support
@@ -149,6 +152,3 @@ eval $(thefuck --alias fk)
 
 # ---- Tmux -----
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

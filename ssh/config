@@ -1,0 +1,5 @@
+#Host <hostname>
+#	HostName <IP address>
+#	User <username>
+
+AddKeysToAgent yes

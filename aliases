@@ -1,3 +1,7 @@
+# Git
+alias git-list-untracked='git fetch --prune && git branch -r | awk "{print \$1}" | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk "{print \$1}"'
+alias git-remove-untracked='git fetch --prune && git branch -r | awk "{print \$1}" | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk "{print \$1}" | xargs git branch -d'
+
 # Start the calculator
 alias bc='bc -lq'
 
@@ -65,13 +69,28 @@ alias py3='/usr/bin/env python3'
 alias reload='source ~/.$(echo ${0//-})rc'
 
 # Docker alias
+alias dk="docker"
 alias dockerkill='docker kill $(docker ps -q)'
-alias dockercleanc='docker rm -f $(docker ps -aq)'
+alias dockercleanc='docker rm -f $(docker ps -a -q)'
 alias dockercleani='docker rmi -f $(docker images -q)'
 alias dockercleanu='docker rmi -f $(docker images -q --filter "dangling=true")'
-alias dockercleans='docker ps -a | grep "Exited" | awk "{print $1}" | xargs --no-run-if-empty docker rm -fv'
+alias dockercleans='docker ps -a | grep "Exited" | awk "{print $1}" | xargs --no-run-if-empty docker rm -f -v'
 alias dockerclean='dockerkill; dockercleanc || true && dockercleani'
 alias dockersh='docker exec -ti $(docker ps -q | head -n 1) /bin/bash'
+# Execute interactive container, e.g., $dex base /bin/bash
+alias dex="docker exec -i -t"
+# Run deamonized container, e.g., $dkd base /bin/echo hello
+alias dkd="docker run -d -P"
+# Run interactive container, e.g., $dki base /bin/bash
+alias dki="docker run -i -t -P"
+# Get latest container ID
+alias dls="docker container ls -a"
+# Get process included stop container
+alias dpa="docker ps -a"
+# Get images
+alias di="docker images"
+# Get container IP
+alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 
 # Get ip
 alias myip="curl ifconfig.co"
@@ -115,6 +134,8 @@ alias httpsrv='py3 -m http.server'
 # Download the targeted URL
 alias dl='curl -OL'
 
+# Kubernetes
+alias k=kubectl
 
 ##### TO CLEAN
 alias fo="emacs -nw"
@@ -122,37 +143,3 @@ alias x="exit"
 alias rmds="find . -name '.DS_Store' -type f -delete"
 alias vm_start="vmrun start ~/Documents/Virtual\ Machines/Debian\ 9.x\ 64-bit.vmwarevm nogui"
 alias vm_stop="vmrun stop ~/Documents/Virtual\ Machines/Debian\ 9.x\ 64-bit.vmwarevm nogui"
-alias dk="docker"
-
-# Get latest container ID
-alias dls="docker container ls -a"
-
-# Get latest container ID
-alias dl="docker ps -l -q"
-
-# Get container process
-alias dps="docker ps"
-
-# Get process included stop container
-alias dpa="docker ps -a"
-
-# Get images
-alias di="docker images"
-
-# Get container IP
-alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
-
-# Run deamonized container, e.g., $dkd base /bin/echo hello
-alias dkd="docker run -d -P"
-
-# Run interactive container, e.g., $dki base /bin/bash
-alias dki="docker run -i -t -P"
-
-# Execute interactive container, e.g., $dex base /bin/bash
-alias dex="docker exec -i -t"
-
-
-# Stop and Remove all containers
-alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
-
-alias dclean="dstop && drmf && dri"
