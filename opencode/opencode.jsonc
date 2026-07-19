@@ -1,0 +1,176 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    "subagent_depth": 5,
+    "share": "disabled",
+    "shell": "zsh",
+    "autoupdate": true,
+    "lsp": true,
+    "formatter": true,
+    "model": "openai/gpt-5.6-sol",
+    "small_model": "openai/gpt-5.6-luna",
+    "skills": {
+        "paths": ["~/.agents/skills"],
+    },
+    "mcp": {
+        "cocoindex-code": {
+            "type": "local",
+            "enabled": true,
+            "command": [
+                "ccc",
+                "mcp"
+            ]
+        },
+        "mcp_gopls": {
+            "type": "local",
+            "enabled": true,
+            "command": [
+                "/Users/harish.segar/.go/bin/mcp-gopls",
+                "--workspace",
+                "."
+            ],
+            "environment": {
+                "MCP_GOPLS_LOG_LEVEL": "info"
+            }
+        },
+        "engram": {
+            "type": "local",
+            "enabled": true,
+            "command": [
+                "/opt/homebrew/bin/engram",
+                "mcp",
+                "--tools=agent"
+            ]
+        },
+        "sequential-thinking": {
+            "type": "local",
+            "enabled": true,
+            "command": [
+                "/opt/homebrew/bin/npx",
+                "-y",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ]
+        },
+        "gh_grep": {
+            "type": "remote",
+            "enabled": true,
+            "url": "https://mcp.grep.app"
+        },
+        "context7": {
+            "type": "remote",
+            "enabled": true,
+            "url": "https://mcp.context7.com/mcp"
+        },
+        "security-detections": {
+            "type": "local",
+            "enabled": false,
+            "command": [
+                "/opt/homebrew/bin/npx",
+                "-y",
+                "security-detections-mcp"
+            ],
+            "environment": {
+                "SIGMA_PATHS": "~/Documents/Kudelski/sigma/detections/sigma/rules,~/Documents/Kudelski/sigma/detections/sigma/rules-threat-hunting",
+                "SPLUNK_PATHS": "~/Documents/Kudelski/sigma/detections/security_content/detections",
+                "ELASTIC_PATHS": "~/Documents/Kudelski/sigma/detections/detection-rules/rules",
+                "KQL_PATHS": "~/Documents/Kudelski/sigma/detections/kql-bertjanp,~/Documents/Kudelski/sigma/detections/kql-jkerai1",
+                "STORY_PATHS": "~/Documents/Kudelski/sigma/detections/security_content/stories",
+                "SUBLIME_PATHS": "~/Documents/Kudelski/sigma/detections/sublime-rules/detection-rules",
+                "CQL_HUB_PATHS": "~/Documents/Kudelski/sigma/detections/cql-hub/queries",
+                // "JAMF_PROTECT_PATHS": "~/Documents/Kudelski/sigma/detections/jamfprotect/custom_analytic_detections",
+                "ATTACK_STIX_PATH": "~/Documents/Kudelski/sigma/detections/attack-stix-data/enterprise-attack/enterprise-attack.json"
+            }
+        }
+    },
+    "agent": {
+        // Build agent - full capability with slight creativity
+        "build": {
+            "model": "openai/gpt-5.6-terra",
+            "variant": "high",
+            "temperature": 0.3,
+        },
+        "plan": {
+            "model": "openai/gpt-5.6-sol",
+            "variant": "high",
+            "temperature": 0.0,
+        }
+    },
+    "references": {
+        "citadel": {
+            "path": "~/Documents/Citadel/",
+            "description": "Use lobal project documentation",
+        },
+        "ksigma": {
+            "path": "~/Documents/Kudelski/sigma/sigma-files/",
+            "description": "Use lobal project documentation",
+        },
+        "sigma": {
+            "repository": "https://github.com/SigmaHQ/sigma",
+            "branch": "master",
+            "description": "Use when we are talking about sigma rules",
+        },
+        "elastic": {
+            "repository": "https://github.com/elastic/detection-rules",
+            "branch": "main",
+            "description": "Use when we are talking about elastic detection rules",
+        },
+        "splunk": {
+            "repository": "https://github.com/splunk/security_content",
+            "branch": "develop",
+            "description": "Use when we are talking about splunk detection rules",
+        },
+        "sentinel": {
+            "repository": "https://github.com/Azure/Azure-Sentinel",
+            "branch": "master",
+            "description": "Use when we are talking about azure sentinel or msdefender detection rules",
+        },
+        "gsecops": {
+            "repository": "https://github.com/chronicle/detection-rules",
+            "branch": "main",
+            "description": "Use when we are talking about google chronicle detection rules",
+        },
+    },
+    "permission": {
+        "external_directory": {
+            "*": "ask",
+            "/tmp": "allow",
+            "/tmp/*": "allow",
+            "~/.local/share/cortexkit/*": "allow",
+            "~/.agents/skills/*": "allow",
+            "~/.local/share/opencode/log/*": "allow",
+            "~/.config/opencode/*": "allow",
+        },
+        "skill": "allow",
+        "task": {
+            "*": "allow",
+        },
+        "tool": {
+            "*": "allow",
+        },
+        "webfetch": "allow",
+        "websearch": "allow",
+        "bash": {
+            "*": "allow",
+            "rm -f *": "ask",
+            "rm -rf *": "ask",
+            "dd *": "ask",
+            "git checkout *": "ask",
+            "git reset *": "ask",
+            "git restore *": "ask",
+            "git clean *": "ask",
+            "git push *": "ask",
+            "sh -c *": "ask",
+            "git add .": "deny",
+            ":(){:|:&};:": "deny"  // fork bomb, just in case
+        },
+    },
+    "plugin": [
+        "@tarquinen/opencode-dcp@latest",
+        "@franlol/opencode-md-table-formatter@latest",
+        "cc-safety-net@latest",
+        "opencode-claude-auth@latest",
+        "@dietrichgebert/ponytail",
+        "@gotgenes/opencode-agent-identity",
+        "opencode-mini-session",
+        "context-mode"
+    ],
+}

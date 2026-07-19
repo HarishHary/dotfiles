@@ -4,14 +4,10 @@
 [init]
     defaultBranch = main
 [core]
-    pager = delta
+    pager = hunk pager
     filemode = true
     compression = 6
-[delta]
-    navigate = true
-    side-by-side = true
-[interactive]
-    diffFilter = delta --color-only
+	ignorecase = false
 [diff]
     colorMoved = default
 [alias]

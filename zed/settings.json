@@ -1,0 +1,163 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "diff_view_style": "split",
+    "context_servers": {
+        
+    },
+    "search": {
+        "button": false
+    },
+    "outline_panel": {
+        "button": true
+    },
+    "collaboration_panel": {
+        "button": false
+    },
+    "git_panel": {
+        "group_by": "status",
+        "tree_view": true
+    },
+    "cli_default_open_behavior": "existing_window",
+    "disable_ai": false,
+    "language_models": {
+        "opencode": {
+            "show_go_models": false,
+            "show_zen_models": false,
+        },
+    },
+    "agent": {
+        "terminal_init_command": "",
+        "sidebar_side": "right",
+        "flexible": true,
+        "button": false,
+        "dock": "right",
+        "default_model": {
+            "provider": "openai-subscribed",
+            "model": "gpt-5.6-sol",
+            "enable_thinking": true,
+            "effort": "medium",
+        },
+        "favorite_models": [],
+        "model_parameters": [],
+    },
+    "agent_servers": {
+        "claude-acp": {
+            "default_config_options": {
+                "effort": "medium",
+                "model": "claude-fable-5[1m]"
+            },
+            "type": "registry",
+        },
+        "opencode": {
+            "default_config_options": {
+                "mode": "orchestrator",
+                "effort": "medium",
+                "model": "openai/gpt-5.6-sol"
+            },
+            "type": "registry",
+        },
+    },
+    "edit_predictions": {
+        "provider": "zed",
+        "allow_data_collection": "no",
+    },
+    "session": {
+        "trust_all_worktrees": true,
+    },
+    "terminal": {
+        "max_scroll_history_lines": 100000,
+        "env": {
+            "Q_NEW_SESSION": "\"1\"",
+        },
+        "font_size": 15.0,
+        "font_family": "Source Code Pro for Powerline",
+    },
+    "project_panel": {
+        "button": false,
+        "hide_gitignore": false,
+        "dock": "left",
+        "auto_reveal_entries": false,
+    },
+    "base_keymap": "VSCode",
+    "use_smartcase_search": true,
+    "minimap": {
+        "show": "never",
+    },
+    "autosave": "on_focus_change",
+    "file_types": {
+        "markdown": [
+            "*.md",
+            "*.md"
+        ],
+        "yaml": [
+            "*.tmpl",
+            "*.tmpl"
+        ],
+    },
+    "colorize_brackets": false,
+    "auto_indent_on_paste": true,
+    "use_on_type_format": true,
+    "show_whitespaces": "all",
+    "hard_tabs": false,
+    "tab_size": 4,
+    "icon_theme": "Catppuccin Macchiato",
+    "ui_font_size": 16,
+    "buffer_font_size": 15,
+    "theme": "Catppuccin Macchiato",
+    "lsp": {
+        "markdownlint": {
+            "settings": {
+                "MD013": false,
+                "MD022": false,
+                "MD024": false,
+                "MD026": {
+                    "punctuation": ""
+                },
+                "MD032": false,
+                "MD033": false,
+                "MD034": false,
+                "MD036": false,
+                "MD041": false,
+                "MD060": false,
+            }
+        },
+        "ruff": {
+            "initialization_options": {
+                "settings": {
+                    "lint": {
+                        "config": "./pyproject.toml"
+                    },
+                    "quote-style": "double",
+                    "indent-style": "space",
+                    "line-ending": "lf",
+                    "docstring-code-format": true,
+                    "skip-magic-trailling-comma": "false"
+                }
+            }
+        }
+    },
+    "languages": {
+        "Python": {
+            "language_servers": ["pyright", "ruff"],
+            "format_on_save": "on",
+            "code_actions_on_format": {
+                "source.fixAll.ruff": true,
+                "source.organizeImports.ruff": true,
+            },
+            "formatter": [
+                {
+                    "language_server": {
+                        "name": "ruff"
+                    }
+                }
+            ],
+        }
+    }
+}

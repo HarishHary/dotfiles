@@ -1,0 +1,1 @@
+/Users/harish.segar/.agents/skills/orchestrator/agents/solver.md
